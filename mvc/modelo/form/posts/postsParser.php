@@ -1,5 +1,5 @@
 <?php
-class postsParser
+class PostsParser
 {
     public static function loadContent($vista)
     {
@@ -14,13 +14,14 @@ class postsParser
             $str = '';
             switch ($tag) {
                 case 'posts':
-                    $datos = Api::getAllPosts();
+                    $id = "/";
+                    $datos = Api::getPosts($id);
                     if ($datos) {
                         $str = "<div class='container'>";
                         foreach ($datos as $posts) {
                             $str .= "
                         <div class='card m-3 p-2'>
-                        <h5 class='card-title'>" . $posts['title'] . "</h5>
+                        <h5 class='card-title'> <a href='?pagina=postId&post=" . $posts['id'] . "'>" . $posts['title'] . "</a></h5>
                         <p class='card-text'>" . $posts['body'] . "</p>
                         </div>
                         ";

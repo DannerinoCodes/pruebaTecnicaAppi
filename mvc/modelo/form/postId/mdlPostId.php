@@ -1,7 +1,8 @@
 <?php
-class mdlPosts extends Singleton
+class mdlPostId extends Singleton
 {
-    const PAGE = 'posts';
+    const PAGE = 'postId';
+
     public function onGestionPagina()
     {
         if (getGet('pagina') != self::PAGE) return;
@@ -14,6 +15,6 @@ class mdlPosts extends Singleton
         include $path;
         $vista = ob_get_contents();
         ob_end_clean();
-        echo PostsParser::loadContent($vista);
+        echo PostIdParser::loadContent($vista);
     }
 }
