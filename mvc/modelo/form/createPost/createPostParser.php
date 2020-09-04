@@ -44,6 +44,13 @@ class CreatePostParser
                             $str .= "El/Los campo(s) $warning_fields tienen errores de formato.</p>";
                         }
                         break;
+                    case "users":
+                        $data = Api::getUsers("");
+
+                        foreach ($data as $user) {
+                            $str .= "<option value='" . $user['name'] . "'>" . $user['name'];
+                        }
+                        break;
                 }
                 $vista = str_replace('{{' . $tag . '}}', $str, $vista);
             }

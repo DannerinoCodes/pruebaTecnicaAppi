@@ -9,7 +9,7 @@ class mdlCreatePost extends Singleton
         // Validamos los elementos que hay en $_POST
         $toValidate = ($_POST);
         $rules = array(
-            'userId' => 'required',
+            'users' => '',
             'title' => 'required|alpha_space',
             'body' => 'required|alpha_space'
         );

@@ -27,11 +27,12 @@
             <h1>NUEVO POST</h1>
             {{errores}}
             <div>
-                <!-- ESTE INPUT HAY QUE CAMBIARLO POR EL SELECT DE USERS. NO OLVIDAR. -->
-                <label class="{{class-userId}}" for="userId">Usuario</label>
-                <input type="text" id="userId" name="userId" value='<?php echo $val->restoreValue('userId'); ?>'>
-                <span>{{war-userId}}</span>
-            </div>
+
+                <label class="{{class-users}}" for="users">Autor</label>
+                <select name="users">
+                    {{users}}
+                </select>
+            </div><br>
             <div>
                 <label class="{{class-title}}" for="title">Título</label>
                 <input type="text" id="title" name="title" value='<?php echo $val->restoreValue('title'); ?>'>
