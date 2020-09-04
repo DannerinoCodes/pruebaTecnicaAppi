@@ -11,6 +11,7 @@ class Validacion extends Singleton
     {
         $this->_rules = $rules;
     }
+
     public function run($toValidate)
     {
         foreach ($toValidate as $field => $value) {
@@ -43,43 +44,24 @@ class Validacion extends Singleton
                 $this->_setError($field, $value, 'ok');
         }
     }
+
     public function isValid()
     {
         if (count($this->_oks) == count($this->_errors))
             return true;
         return false;
     }
+
     public function getStrRule($rule)
     {
         switch ($rule) {
                 // solo hay una posible coincidencia, pero ya añadiremeos más
             case 'alpha_space':
-                return 'Solo puede contener letras (a-z) y espacios en blanco';
-            case 'alphanum_simple':
-                return 'Solo puede contener de 5 a 15 letras y números (a-z)';
-            case 'foto':
-                return $this->_errorFoto;
-            case 'duplicate':
-                return 'Usuario duplicado';
-            case 'numeric':
-                return 'Debe ser un número';
-            case 'email':
-                return 'Debe contener una dirección valida de email';
-            case 'repeated':
-                return 'Teléfono repetido';
-            case 'integer':
-                return 'Debe ser un número entero';
+                return 'El texto no puede contener caracteres especiales.';
         }
         return '';
     }
-    public function setExists($dup)
-    {
-        $this->_exists = $dup;
-    }
-    public function setTelfRepeat($rep)
-    {
-        $this->_telfRepeat = $rep;
-    }
+
     public function restoreValue($name)
     {
         if (array_key_exists($name, $this->_errors)) {
@@ -88,20 +70,7 @@ class Validacion extends Singleton
         }
         return "";
     }
-    public function restoreCheckboxes($name, $value, $default = false)
-    {
-        //si _errors está vacío, es la primera vez que se visualiza el formulario
-        if ($this->_errors) {
-            if (array_key_exists($name, $this->_errors)) {
-                // _errors[$name]['value'] es un array (Bicicleta, Tren etc.)
 
-                if ($this->_errors[$name]['value'] == $value)
-                    return 'checked';
-            }
-            // es la primera vez que se visualiza el formulario y podemos poner valores por defecto.
-        } elseif ($default)
-            return 'checked';
-    }
     public function restoreSelects($name, $value, $default = false)
     {
         //si _errors está vacío, es la primera vez que se visualiza el formulario
@@ -117,30 +86,25 @@ class Validacion extends Singleton
         } elseif ($default)
             return 'selected';
     }
-    public function restoreRadios($name, $value, $default = false)
-    {
-        if (array_key_exists($name, $this->_errors)) {
-            if ($this->_errors[$name]['value'] == $value)
-                return 'checked';
-            // si el nombre del campo no está en _errors, es que es la primera vez que se visualiza el formulario
-            // y es cuando podemos poner valores por defecto.
-        } elseif ($default)
-            return 'checked';
-        return '';
-    }
+
     public function getOks()
     {
         return $this->_oks;
     }
+
+
     // método que devuelve el elemento del array _errors de un campo (si existe)
+
     public function getErrorsByField($field)
     {
         return getArray($this->_errors, $field, array());
     }
+
     public function getErrors()
     {
         return $this->_errors;
     }
+
     private function _setError($field, $value, $rule)
     {
         $this->_errors[$field] = array(
@@ -156,94 +120,16 @@ class Validacion extends Singleton
     // que se utiliza en el array $_rules de la clase mdlPaso1
     private function _validate_alpha_space($field, $value)
     {
-        if (!preg_match('/^([a-zÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ\s])+$/i', $value))
+        if (!preg_match('/^([a-zÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ.\s]{1,300})+$/i', $value))
             $this->_setError($field, $value, 'alpha_space');
         else
             $this->_setError($field, $value, 'ok');
     }
-    private function _validate_foto($field, $value)
-    {
-        if ($value["error"] == UPLOAD_ERR_OK) {
-            if (($value["type"] != "image/pjpeg") and ($value["type"] != "image/jpeg")) {
-                $this->_setError($field, $value, 'foto');
-                $this->_errorFoto = "<b>JPEG fotos solamente, gracias!</b>";
-            } elseif (!move_uploaded_file($value["tmp_name"], "fotos/" . basename($value["name"]))) {
-                $this->_setError($field, $value, 'foto');
-                $this->_errorFoto = "<b>Lo sentimos, hubo un problema al subir esa foto</b>" . $value["error"];
-            } else
-                $this->_setError($field, $value, 'ok');
-        } else {
-            $this->_setError($field, $value, 'foto');
-            switch ($value["error"]) {
-                case UPLOAD_ERR_INI_SIZE:
-                    $this->_errorFoto = "<b>La foto es más grande de lo que permite el servidor.<b>";
-                    break;
-                case UPLOAD_ERR_FORM_SIZE:
-                    $this->_errorFoto = "<b>La foto es más grande de lo que permite el formulario.<b>";
-                    break;
-                case UPLOAD_ERR_NO_FILE:
-                    $this->_setError($field, $value, 'required');
-                    break;
-                default:
-                    $this->_errorFoto = "Ponte en contacto con el administrador del servidor para obtener ayuda.";
-            }
-        }
-    }
+
     // método que añade una elemento al array _errors cuando un campo obligatorio no se ha completado
     private function _validate_required($field, $value)
     {
         if (strlen($value) == 0)
             $this->_setError($field, $value, 'required');
-    }
-    private function _validate_repeated($field, $value)
-    {
-        if ($this->_telfRepeat)
-            $this->_setError($field, $value, 'repeated');
-    }
-    private function _validate_numeric($field, $value)
-    {
-        if (!filter_var($value, FILTER_VALIDATE_INT))
-            $this->_setError($field, $value, 'numeric');
-    }
-    private function _validate_integer($field, $value)
-    {
-
-        if (!preg_match('/^([0-9]{9})*$/i', $value))
-            $this->_setError($field, $value, 'integer');
-        else
-            $this->_setError($field, $value, 'ok');
-    }
-    private function _validate_alphanumeric($field, $value)
-    {
-        if (!preg_match('/^([a-zA-Z0-9\S]){6}$/i', $value))
-            $this->_setError($field, $value, 'alphanumeric');
-        else
-            $this->_setError($field, $value, 'ok');
-    }
-    private function _validate_dni($field, $value)
-    {
-        if (!preg_match('/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]{1}$/i', $value))
-            $this->_setError($field, $value, 'dni');
-        else
-            $this->_setError($field, $value, 'ok');
-    }
-    private function _validate_duplicate($field, $value)
-    {
-        if ($this->_exists)
-            $this->_setError($field, $value, 'duplicate');
-    }
-    private function _validate_alphanum_simple($field, $value)
-    {
-        if (!preg_match('/^([a-zA-Z0-9]){5,15}+$/', $value))
-            $this->_setError($field, $value, 'alphanum_simple');
-        else
-            $this->_setError($field, $value, 'ok');
-    }
-    private function _validate_email($field, $value)
-    {
-        if (!preg_match('/^[A-Za-z0-9_.\-]+@[A-Za-z0-9_.\-]+.[A-Za-z]{2,3}$/', $value))
-            $this->_setError($field, $value, 'email');
-        else
-            $this->_setError($field, $value, 'ok');
     }
 }

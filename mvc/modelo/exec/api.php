@@ -42,6 +42,7 @@ class Api
 
     public static function createPost($data)
     {
+
         $url = "https://jsonplaceholder.typicode.com/posts/";
         $curl = curl_init();
         curl_setopt_array($curl, array(
