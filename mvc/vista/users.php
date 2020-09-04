@@ -21,9 +21,9 @@
         <a class="nav-item nav-link" href="?pagina=createPost">Nuevo Post</a>
     </div>
     <hr>
-    <h1 class="display-2 text-center">Posts</h1>
+    <h1 class="display-2 text-center">Usuarios</h1>
     <hr>
-    {{posts}}
+    {{users}}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -19,12 +19,13 @@ class PostIdParser
 
                     $id = "/" . getGet('post');
                     $datos = Api::getPosts($id);
+                    $autor = Api::getUsers($datos['userId']);
 
                     if ($datos) {
-                        $str .= "<div class='container'>                        
-                        <h5> " . $datos['title'] . "</h5>
+                        $str .= "<div class='container-fluid mx-4 mb-4'>                        
+                        <h1 class='display-3'> " . $datos['title'] . "</h1>
+                        <br><h3> <a href='?pagina=users?userId=" . $autor['id'] . "'>" . $autor['name'] . "<a></h3><hr>
                         <p'>" . $datos['body'] . "</p>
-                        <div>
                         </div>";
                     }
                     break;
@@ -36,7 +37,7 @@ class PostIdParser
                     $datos = Api::getComments($id);
 
                     if ($datos) {
-                        $str .= "<div class='container'><h1> Comentarios: </h1><hr>";
+                        $str .= "<div class='container'><h3> Comentarios: </h3><hr>";
 
                         foreach ($datos as $comments) {
                             $str .= "<h5> " . $comments['email'] . "</h5>

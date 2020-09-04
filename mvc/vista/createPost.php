@@ -24,7 +24,9 @@
 
     <div>
         <form action="index.php?pagina=createPost" method="post">
-            <h1>NUEVO POST</h1>
+            <hr>
+            <h1 class="display-2 text-center">Nuevo post</h1>
+            <hr>
             {{errores}}
             <div>
 

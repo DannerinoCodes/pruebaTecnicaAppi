@@ -11,6 +11,9 @@
 </head>
 
 <body>
+    <hr>
+    <h1 class="display-2 text-center">¡Post creado!</h1>
+    <hr>
     {{mensaje}}
     <br>
 </body>

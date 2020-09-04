@@ -13,7 +13,9 @@
 </head>
 
 <body>
-
+    <hr>
+    <h1 class="display-2 text-center">Bienvenido</h1>
+    <hr>
 
     <div class="navbar d-flex justify-content-around">
         <a class="nav-item nav-link" href="?pagina=posts">Posts</a>
