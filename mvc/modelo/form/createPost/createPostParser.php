@@ -24,7 +24,7 @@ class CreatePostParser
                         $required_fields .= "<strong>$field</strong>, ";
                         $vista = str_replace('{{class-' . $field . '}}', 'has-error', $vista);
                         break;
-                    case 'alpha_space' || 'numeric':
+                    case 'alpha_space':
                         $warning_fields .= "<strong>$field</strong>, ";
                         $vista = str_replace('{{class-' . $field . '}}', 'has-warning', $vista);
                         $vista = str_replace('{{war-' . $field . '}}', $val->getStrRule($rule), $vista);

@@ -5,7 +5,7 @@ class Controlador
     {
         $page = getGet('pagina');
         if ($page == null) redirectTo('index.php?pagina=' . VISTA_PORDEFECTO);
-        // Preparación
+        // Preparation
         EventDispatcher::getInstance()->registerEventsModels();
         // Workflow
         self::_gestionPagina();

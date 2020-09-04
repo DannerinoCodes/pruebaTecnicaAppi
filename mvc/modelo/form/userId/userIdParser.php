@@ -10,7 +10,7 @@ class UserIdParser
     private static function _pasoSiguiente($vista)
     {
         foreach (getTagsVista($vista) as $tag) {
-            // sustituimos en el formulario los tags por el contenido de los elementos del formulario
+            // to replace the tags in the form with the content of the forms elements
             $str = '';
 
             switch ($tag) {

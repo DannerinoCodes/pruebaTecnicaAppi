@@ -10,7 +10,7 @@ class PostIdParser
     private static function _pasoSiguiente($vista)
     {
         foreach (getTagsVista($vista) as $tag) {
-            // sustituimos en el formulario los tags por el contenido de los elementos del formulario
+            // to replace the tags in the form with the content of the forms elements
             $str = '';
 
             switch ($tag) {
@@ -24,7 +24,7 @@ class PostIdParser
                     if ($datos) {
                         $str .= "<div class='container-fluid mx-4 mb-4'>                        
                         <h1 class='display-3'> " . $datos['title'] . "</h1>
-                        <br><h3> <a href='?pagina=users?userId=" . $autor['id'] . "'>" . $autor['name'] . "<a></h3><hr>
+                        <br><h3> <a href='?pagina=userId&user=" . $autor['id'] . "'>" . $autor['name'] . "<a></h3><hr>
                         <p'>" . $datos['body'] . "</p>
                         </div>";
                     }

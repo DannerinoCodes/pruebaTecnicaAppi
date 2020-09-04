@@ -6,12 +6,12 @@ class mdlCreatePost extends Singleton
     {
         if (getGet('pagina') != self::PAGE) return;
         $val = Validacion::getInstance();
-        // Validamos los elementos que hay en $_POST
+        // Validate the elements in $_POST
         $toValidate = ($_POST);
         $rules = array(
             'users' => '',
             'title' => 'required|alpha_space',
-            'body' => 'required|alpha_space'
+            'body' => 'required'
         );
 
         $val->addRules($rules);

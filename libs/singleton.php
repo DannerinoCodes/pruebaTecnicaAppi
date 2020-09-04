@@ -1,7 +1,7 @@
 <?php
 class Singleton
 {
-    private static $instances = array(); // nos permitirá almacenar instancias de diferentes clases
+    private static $instances = array(); // to store instances of different classes
     private function __construct()
     {
     }
@@ -15,9 +15,9 @@ class Singleton
     }
     public static function getInstance()
     {
-        $cls = get_called_class(); // devuelve el nombre de la clase que ha llamado al método
+        $cls = get_called_class(); // returns the class name that has called the method
         if (!isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new static; // con new static se instancia la clase que ha llamado al método
+            self::$instances[$cls] = new static; // instances the class that has called the method
         }
         return self::$instances[$cls];
     }
