@@ -44,7 +44,6 @@ class Api
         ));
         $datos = curl_exec($curl);
         $headers = self::get_headers_from_curl_response($datos);
-        var_dump($headers);
         $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $body = substr($datos, $header_size);
         $data["link"] = $headers["link"];
