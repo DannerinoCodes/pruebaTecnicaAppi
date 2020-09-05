@@ -7,11 +7,49 @@ class Api
         $url = "https://jsonplaceholder.typicode.com/posts" . $id;
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_URL => $url
         ));
         $datos = curl_exec($curl);
         return json_decode($datos, true);
+    }
+
+
+    public static function get_headers_from_curl_response($response)
+    {
+        $headers = array();
+
+        $header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
+
+        foreach (explode("\r\n", $header_text) as $i => $line)
+            if ($i === 0)
+                $headers['http_code'] = $line;
+            else {
+                list($key, $value) = explode(': ', $line);
+
+                $headers[$key] = $value;
+            }
+
+        return $headers;
+    }
+
+    public static function getPostsPage($page)
+    {
+        $url = "https://jsonplaceholder.typicode.com/posts?_page=" . $page . "&_limit=7";
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $url,
+            CURLOPT_HEADER => true
+        ));
+        $datos = curl_exec($curl);
+        $headers = self::get_headers_from_curl_response($datos);
+        var_dump($headers);
+        $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $body = substr($datos, $header_size);
+        $data["link"] = $headers["link"];
+        $data["body"] = json_decode($body, true);
+        return $data;
     }
 
 

@@ -16,7 +16,7 @@
 
 
     <div class="navbar d-flex justify-content-around">
-        <a class="nav-item nav-link" href="?pagina=posts">Posts</a>
+        <a class="nav-item nav-link" href="?pagina=posts&page=1">Posts</a>
         <a class="nav-item nav-link" href="?pagina=users">Usuarios</a>
         <a class="nav-item nav-link" href="?pagina=createPost">Nuevo Post</a>
     </div><br>
